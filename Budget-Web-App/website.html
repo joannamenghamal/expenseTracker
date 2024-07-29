@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget Web Application</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/4707c47cbd.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="income-container">
+    <h1>EXPENSE TRACKER</h1>
+
+    <main>
+        <div class = "budgetAndExpenseContainer" flexspace>
+          <div class ="budgetAmountContainer">
+            <h5>Budget</h5>
+            <p class="hide error" id="budget-error">Value cannot be empty or negative</p>
+            <form class="budgetForm"></form>
+            <input type="number" id="balance-amount" placeholder="Enter Total Amount"/>
+            <button class="submit" id="totalAmountButton">Set Budget</button>
+          </form>
+          </div>
+  
+          <div class="expenseContainer">
+            <h5>Expense</h5>
+            <p class="hide error" id="productTitleError">Values cannot be empty</p>
+            <form class="expenseForm">
+            <input type="text" name="name" id="name" placeholder="Enter expense name" autocomplete="off"/>
+            <input type="number" name="expense-amount" id="expense-amount" placeholder="Enter the amount"></label>
+            <button class="submit" id="expenseAmountButton">Submit</button>
+            </form>
+          </div>
+        </div>  
+    </main>
+
+  <!---Output-->
+  <div class="output-container" flex-space>
+    <div>
+      <p>Total Budget</p>
+      <span id="totalAmount">0</span>
+    </div>
+    <div>
+      <p>Expenses</p>
+      <span id="expenseAmountDisplay">0</span>
+    </div>
+    <div>
+      <p>Balance</p>
+      <span id="amount">0</span>
+    </div>
+
+  </div>
+
+      <div class="list">
+        <p class="list-title">Expense List</p>
+        <div id = "list"></div>
+      </div>
+
+  
+  
+</body>
+
+<script src="script2.js"></script>
+</html>
