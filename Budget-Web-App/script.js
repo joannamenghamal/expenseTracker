@@ -1,205 +1,150 @@
-let expenseAmountButton = document.getElementById('expenseAmountButton');
-const errorMessage = document.getElementById("productTitleError")
-const list = document.getElementById("list");
-const balanceAmount = document.getElementById("balance-amount");
-const totalAmount = document.getElementById("amount");
-const budgetAmount = document.getElementById("totalAmount");
-
-
+let totalBalance = document.getElementById("amount");
+let budgetAmount = document.getElementById("totalAmount");
+let budgetValue = document.getElementById("balance-amount");
+let totalAmountButton = document.getElementById("totalAmountButton");
+let list = document.getElementById("list");
+let expenseAmountButton = document.getElementById("expenseAmountButton");
+let expenseName = document.getElementById("name");
+let expenseAmount = document.getElementById("expense-amount");
+const errorMessage = document.getElementById("productTitleError");
+const errorMessage2 = document.getElementById("budget-error");
+let expenseAmountDisplay = document.getElementById("expenseAmountDisplay");
 let tempAmount = 0;
-let productName = document.getElementById("name");
+let tempBudgetAmount = 0;
 
-  // Set Expense
+let budget = parseInt(budgetAmount);
+let id = 0;
+let value = 0;
 
-const expenseAmount = document.getElementById("expense-amount");
+var array;
+const object_data = {
+  budget: 0,
+  total_expenses: 0,
+  balance: 0,
+  expenses: []
+};
+
+// Initialize local storage
+if (localStorage.getItem("array")) {
+  array = JSON.parse(localStorage.getItem("array"));
+  setValues();
+} else {
+  localStorage.setItem("array", JSON.stringify(object_data));
+  array = object_data;
+}
+
+
+
 
 totalAmountButton.addEventListener("click", () => {
-  tempAmount = totalAmount.value;
-  //empty or negative input
+  if(budgetValue < 0) {
+    errorMessage2.classList.remove("hide");
+  }
+  else{
+    errorMessage2.classList.add("hide");
+    updateBalance(false);
+
+    // Clear input box
+    budgetValue.value = "";
+  
+  }
+});
+
+// Input expense description and amount
+expenseAmountButton.addEventListener("click", () => {
+tempAmount = expenseAmount.value;
+let amount = parseInt(tempAmount);
+let title = expenseName.value;
   if(tempAmount === "" || tempAmount < 0) {
     errorMessage.classList.remove("hide");
   }
   else{
     errorMessage.classList.add("hide");
+    array.expenses.push({
+      title: title,
+      value: amount
+    });
 
-    // Set Budget Amount
-    totalAmount.innerHTML = tempAmount;
-    // Set Balance
-    balanceAmount.innerText = tempAmount - expenseAmount.innerText;
     // Clear Input Box
-    totalAmount.value = "";
+    expenseAmount.value = "";
+    expenseName.value = "";
+
+
+
+    updateBalance(true);
 
   }
-
 });
 
+// Update balance
+function updateBalance(val) {
 
-/*document.addEventListener("DOMContentLoaded" , expense);*/
-
-/* Function to modify list */
-const modifyElement = (element, edit = false) => {
-  let parentDiv = element.parentElement;
-  let currentBalance = balanceAmount.innerText;
-  let currentExpense = expenseAmount.innerText;
-  let parentAmount = parentDiv.querySelector(".amount").innerText;
-  if(edit) {
-    let parentText = parentDiv.querySelector(".name").innerText;
-    productName.value = parentText;
-    expenseAmount.value = parentAmount;
-    disableButtons(true);
-
-
+  if(!val){
+    array.budgetAmount = budgetValue.value;
   }
-  totalAmount.innerText = parseInt(currentBalance) + parseInt(parentAmount);
-  expenseAmount.innerText = parseInt(parentAmount);
-  parentDiv.remove;
-};
-
-/* Function to  Create Expense List */
-
-const listCreator = (expenseName, expenseValue) => {
-  let sublistContent = document.createElement("div");
-  sublistContent.classList.add("sublist-container", "flex-space");
-  list.appendChild(sublistContent);
-  sublistContent.innerHTML = `<p class="product">${expenseName}</p><p class="amount">${expenseValue}</p>`;
+  array.expenseBalance = calculateExpense();
+  array.totalBalance = tempBudgetAmount - array.expenseBalance;
+  localStorage.setItem("array", JSON.stringify(array));
+  setValues();
 }
 
+function setValues() {
+  budgetAmount.innerHTML = `$ ${array.budgetAmount}`;
+  expenseAmountDisplay.innerHTML = `$ ${array.expenseBalance}`;
+  totalBalance.innerHTML = `$ ${array.totalBalance}`;
 
-
-
-
-
-
-
-editButton.forEach((editbutton) => {
-  editbutton.addEventListener("click", (el) => {
-    let id;
-    content_id.forEach((ids) => {
-    console.log(ids.firstElementChild.dataset.id)
-    id = ids.firstElementChild.dataset.id;
-  });
-
-  let element = el.target.parentElement.parentElement;
-  element.remove();
-  console.log(element);
-
-  let expenses = itemList.filter(function (item){
-    return item.id == id;
-  });
-  expenseName.value = expenses[0].title;
-  expenseAmount.value = expenses[0].amount;
-
-  let temp_list = itemList.filter(function (item) {
-    return item.id != id;
-  });
-  itemList = temp_list;
-  });
-});
-
-
-function showBalance() {
-  const expenses = finalTotal();
-  const total = parseInt(budgetAmount.innerText) - expenses;
-  totalBalance.innerText = total;
+  addExpenses();
 }
- 
-function finalTotal() {
+
+// Calculate final expense total
+function calculateExpense() {
   let total = 0;
 
-
-if(itemList.length > 0) {
-  total = itemList.reduce(function(acc, curr) {
-  acc += curr.amount;
-  return acc;
-  }, 0);
-}
-expenseAmountDisplay.innerText = total;
-return total;
+  if(array.expenses); {
+    for (let item of array.expenses) {
+      total += parseInt(item.value);
+    } 
+  }
+  return total;
 }
 
-// delete event 
+// Create expense list
+function addExpenses() {
+  let content = "";
+  for (let [index, item] of array.expenses.entries()) {
+    let divs = `
+      <div class="list-item">
+        <div class="col"> ${item.title}</div>
+        <div class="col">$ ${item.value}</div>
+        <div class="col">
+          <i id="${index}" class="delete fa fa-trash"></i>
+        </div>
+      </div>
+    `;
+    content += divs;
+  }
+  let el = document.querySelector("#list");
+  el.innerHTML = content;
 
-deleteButton.forEach((deletebutton) => {
-  deletebutton.addEventListener("click", (el) => {
-    let id;
-    content_id.forEach((ids) => {
-    id = ids.firstElementChild.dataset.id;
+  setEvents();
+}
+
+
+
+
+function setEvents() {
+  let deleteButton = document.querySelectorAll(".delete");
+
+  deleteButton.forEach(item => {
+    item.addEventListener("click", deleteExpense, false);
   });
-
-  let element = el.target.parentElement.parentElement;
-  element.remove();
-
-  let temp_list = itemList.filter(function (item) {
-    return item.id != id;
-  });
-  itemList = temp_list;
-  showBalance();
-  });
-});
-
-function addExpenses(list, title, amount, id) {
-  const html = `<ul class ="expense-content">
-                <li id=${id}>${id}</li>
-                <li>${title}</li>
-                <li><span>$</span>${amount}</li>
-                <li>
-                <button type="button" class="btnEdit">Edit</button>
-                <button type="button" class="btnDelete">Delete</button>
-                </li>
-                </ul>`;
+}
 
 
+function deleteExpense(e) {
+  let id = e.target.id
+  array.expenses.splice(id, 1);
+  updateBalance(true);
+}
 
-
-
-
-
-
-
-                function clearElement(elements){
-                  elements.forEach(element => {
-                    element.innerHTML = "";
-                  })
-              }
-              
-              
-              list.addEventListener("click", deleteOrEdit);
-              // edit event
-              function deleteOrEdit(event) {
-                const targetBtn = event.target;
-                const entry = targetBtn.parentNode;
-                console.log(targetBtn)
-              
-                if(targetBtn.id == DELETE) {
-                  deleteEntry(entry);
-                }else if(targetBtn.id == EDIT){
-                  editEntry(entry);
-                }
-              }
-              
-              
-              function deleteEntry(entry) {
-                itemList.splice( entry.id, 1);
-                var target = event.target;
-                var id = target.parentNode;
-                target.parentNode.parentNode.removeChild(id);
-                
-              
-                updateBalance();
-                
-               
-                
-              
-              
-              }
-              
-              function editEntry(entry){
-                console.log(entry)
-                let LIST = itemList[entry.id];
-              
-                expenseAmount.value = LIST.amount;
-                expenseName.value = LIST.title;
-              
-                deleteEntry(entry);
-              }
-              
+//localStorage.clear();

@@ -69,7 +69,7 @@ header div:nth-child(n+2) {
   border-radius: 5px;
   box-sizing: border-box;
   height: 200px;
-  justify-content: space-between;
+  justify-content: space-between; 
 
 }
 
