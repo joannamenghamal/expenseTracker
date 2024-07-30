@@ -1,0 +1,190 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 2rem;
+  background-color: whitesmoke;
+}
+
+main {
+  max-width: 800px;
+  margin: 1rem auto;
+  padding: 1rem;
+}
+
+h1 {
+  text-align: center;
+  color: rgb(23, 81, 122);
+  padding: 1.5rem;
+  font-family: 'Courier New', Courier, monospace;
+
+}
+
+header {
+  background-color: rgb(153, 205, 242);
+  color: whitesmoke;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+header div {
+  padding: 5px;
+}
+
+header div:first-child {
+  flex-basis: 100%;
+  font-size: 2.25rem;
+  font-weight: 600;
+}
+
+header div:nth-child(n+2) {
+  flex-basis: 50%;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+/* Expense Container */
+
+
+#expense {
+  display: flex;
+  padding: 1rem;
+  text-align: center;
+}
+
+
+/* Total Amount Container */
+
+.budgetAndExpenseContainer {
+  display: flex;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 5px;
+  box-sizing: border-box;
+  height: 200px;
+  justify-content: space-between; 
+
+}
+
+h5 {
+  font-size: larger;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.budgetAmountContainer {
+  flex: auto;
+  padding: 1rem;
+  border-radius: 20px;
+  background-color: rgb(153, 205, 242);
+  height: auto;
+  justify-content: space-around;
+  width: auto;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.expenseContainer {
+  padding: 1rem;
+  border-radius: 20px;
+  background-color: rgb(153, 205, 242);
+  height: auto;
+  flex: auto;
+  width: auto;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+.expenseForm {
+  justify-content:center;
+  padding: 1rem;
+
+}
+
+.budgetForm {
+  justify-content: center;
+
+}
+
+#totalAmountButton {
+  flex-wrap: wrap;
+  margin: 20px;
+}
+
+/* EXPENSE LIST */
+
+.hide {
+  display: none;
+}
+
+.error {
+  color: red;
+}
+
+#list {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  padding: 1.8em 1.2em;
+  box-shadow: 0 0.6rem 1.2rem rgba(28, 0, 80, 0.06);
+  margin-top: 20px;
+  border-radius: 0.6em;
+}
+
+.list {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: large;
+
+}
+
+.list-item {
+  justify-content: space-between;
+  display: flex;
+  font-style: oblique;
+  font-weight: 100;
+}
+
+.expense-content {
+  display: grid;
+  flex-wrap: wrap;
+  list-style-type: none;
+  grid-template-columns: 1fr 50% 30% 2fr;
+  align-items: center;
+  background-color:  rgb(165, 206, 242);
+  color: whitesmoke;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin: .5rem 0;
+  cursor: pointer;
+}
+
+.output-container {
+  background-color: rgb(209, 211, 218);
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  flex-wrap: wrap;
+  display: flex;
+  margin: 2rem 0;
+  justify-content: space-between;
+  font-family: 'Courier New', Courier, monospace;
+
+}
+
+#totalAmount {
+  color: rgb(13, 162, 13);
+  font-size: larger;
+}
+
+#amount {
+  color: red;
+  font-size: larger;
+}
+
+#expenseAmountDisplay {
+  color: blue;
+}
