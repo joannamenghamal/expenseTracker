@@ -83,7 +83,7 @@ function updateBalance(val) {
     array.budgetAmount = budgetValue.value;
   }
   array.expenseBalance = calculateExpense();
-  array.totalBalance = tempBudgetAmount - array.expenseBalance;
+  array.totalBalance = array.budgetAmount - array.expenseBalance;
   localStorage.setItem("array", JSON.stringify(array));
   setValues();
 }
@@ -147,4 +147,4 @@ function deleteExpense(e) {
   updateBalance(true);
 }
 
-//localStorage.clear();
+localStorage.clear();
